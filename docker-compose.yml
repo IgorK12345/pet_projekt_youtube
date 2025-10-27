@@ -1,0 +1,81 @@
+version: '3.8'
+
+services:
+  airflow-webserver:
+    image: apache/airflow:2.9.3
+    environment:
+      - AIRFLOW__CORE__EXECUTOR=LocalExecutor
+      - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@postgres:5432/airflow
+      - AIRFLOW__CORE__FERNET_KEY=46BKJoQYlPpB6R7fql54GgkF1jJw6rOjP8Nt4KvZr0U=
+      - AIRFLOW__CORE__LOAD_EXAMPLES=False
+      - AIRFLOW__WEBSERVER__RBAC=True
+    volumes:
+      - airflow-dags:/opt/airflow/dags
+      - airflow-logs:/opt/airflow/logs
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+    command: >
+      bash -c "
+        airflow db upgrade &&
+        airflow users create --username admin --password admin --firstname Admin --lastname User --role Admin --email admin@example.com &&
+        airflow webserver
+      "
+
+  airflow-scheduler:
+    image: apache/airflow:2.9.3
+    environment:
+      - AIRFLOW__CORE__EXECUTOR=LocalExecutor
+      - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@postgres:5432/airflow
+      - AIRFLOW__CORE__FERNET_KEY=46BKJoQYlPpB6R7fql54GgkF1jJw6rOjP8Nt4KvZr0U=
+      - AIRFLOW__CORE__LOAD_EXAMPLES=False
+    volumes:
+      - airflow-dags:/opt/airflow/dags
+      - airflow-logs:/opt/airflow/logs
+    depends_on:
+      - postgres
+    command: >
+      bash -c "
+        airflow db upgrade &&
+        airflow scheduler
+      "
+
+  postgres:
+    image: postgres:13
+    environment:
+      - POSTGRES_USER=airflow
+      - POSTGRES_PASSWORD=airflow
+      - POSTGRES_DB=airflow
+    volumes:
+      - postgres-db-volume:/var/lib/postgresql/data
+
+  minio:
+    image: minio/minio
+    ports:
+      - "9010:9000"
+      - "9011:9001"
+    environment:
+      - MINIO_ROOT_USER=minioadmin
+      - MINIO_ROOT_PASSWORD=minioadmin
+    volumes:
+      - minio-data:/data
+    command: server /data --console-address ":9001"
+
+  clickhouse:
+    image: clickhouse/clickhouse-server:24.3
+    ports:
+      - "8123:8123"
+      - "9000:9000"
+    volumes:
+      - clickhouse-data:/var/lib/clickhouse
+      - clickhouse-logs:/var/log/clickhouse-server
+      - ./clickhouse/config/users.xml:/etc/clickhouse-server/users.d/no-password.xml
+
+volumes:
+  postgres-db-volume:
+  minio-data:
+  clickhouse-data:
+  clickhouse-logs:
+  airflow-dags:
+  airflow-logs:
