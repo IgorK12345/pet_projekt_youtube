@@ -1,0 +1,45 @@
+[2025-11-09T13:54:38.382+0000] {local_task_job_runner.py:120} INFO - ::group::Pre task execution logs
+[2025-11-09T13:54:38.413+0000] {taskinstance.py:2076} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: test_connections_dag.test_minio_connection manual__2025-11-09T13:54:36.390345+00:00 [queued]>
+[2025-11-09T13:54:38.422+0000] {taskinstance.py:2076} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: test_connections_dag.test_minio_connection manual__2025-11-09T13:54:36.390345+00:00 [queued]>
+[2025-11-09T13:54:38.423+0000] {taskinstance.py:2306} INFO - Starting attempt 1 of 2
+[2025-11-09T13:54:38.439+0000] {taskinstance.py:2330} INFO - Executing <Task(PythonOperator): test_minio_connection> on 2025-11-09 13:54:36.390345+00:00
+[2025-11-09T13:54:38.448+0000] {standard_task_runner.py:90} INFO - Running: ['***', 'tasks', 'run', 'test_connections_dag', 'test_minio_connection', 'manual__2025-11-09T13:54:36.390345+00:00', '--job-id', '30', '--raw', '--subdir', 'DAGS_FOLDER/connect.py', '--cfg-path', '/tmp/tmp2yjr9k29']
+[2025-11-09T13:54:38.454+0000] {standard_task_runner.py:91} INFO - Job 30: Subtask test_minio_connection
+[2025-11-09T13:54:38.454+0000] {logging_mixin.py:188} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:62 DeprecationWarning: This process (pid=181) is multi-threaded, use of fork() may lead to deadlocks in the child.
+[2025-11-09T13:54:38.456+0000] {standard_task_runner.py:64} INFO - Started process 182 to run task
+[2025-11-09T13:54:38.502+0000] {task_command.py:426} INFO - Running <TaskInstance: test_connections_dag.test_minio_connection manual__2025-11-09T13:54:36.390345+00:00 [running]> on host 20d06d2beb9c
+[2025-11-09T13:54:38.587+0000] {taskinstance.py:2648} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='data_engineer' AIRFLOW_CTX_DAG_ID='test_connections_dag' AIRFLOW_CTX_TASK_ID='test_minio_connection' AIRFLOW_CTX_EXECUTION_DATE='2025-11-09T13:54:36.390345+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2025-11-09T13:54:36.390345+00:00'
+[2025-11-09T13:54:38.590+0000] {taskinstance.py:430} INFO - ::endgroup::
+[2025-11-09T13:54:38.865+0000] {connect.py:62} INFO - 🔄 Пытаемся подключиться к MinIO...
+[2025-11-09T13:54:38.874+0000] {connect.py:74} INFO - ✅ MinIO подключен успешно! Найдено бакетов: 1
+[2025-11-09T13:54:38.878+0000] {connect.py:82} INFO - ✅ Бакет test-bucket уже существует
+[2025-11-09T13:54:38.879+0000] {connect.py:102} ERROR - ❌ Ошибка подключения к MinIO: 'bytes' object has no attribute 'read'
+[2025-11-09T13:54:38.880+0000] {taskinstance.py:441} INFO - ::group::Post task execution logs
+[2025-11-09T13:54:38.880+0000] {taskinstance.py:2905} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 465, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 432, in _execute_callable
+    return execute_callable(context=context, **execute_callable_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 401, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/operators/python.py", line 235, in execute
+    return_value = self.execute_callable()
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/operators/python.py", line 252, in execute_callable
+    return self.python_callable(*self.op_args, **self.op_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/airflow/dags/connect.py", line 86, in test_minio_connection
+    minio_client.put_object(
+  File "/home/airflow/.local/lib/python3.12/site-packages/minio/api.py", line 1817, in put_object
+    if not callable(getattr(data, "read")):
+                    ^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'bytes' object has no attribute 'read'
+[2025-11-09T13:54:38.890+0000] {taskinstance.py:1206} INFO - Marking task as UP_FOR_RETRY. dag_id=test_connections_dag, task_id=test_minio_connection, run_id=manual__2025-11-09T13:54:36.390345+00:00, execution_date=20251109T135436, start_date=20251109T135438, end_date=20251109T135438
+[2025-11-09T13:54:38.903+0000] {standard_task_runner.py:110} ERROR - Failed to execute job 30 for task test_minio_connection ('bytes' object has no attribute 'read'; 182)
+[2025-11-09T13:54:38.925+0000] {local_task_job_runner.py:243} INFO - Task exited with return code 1
+[2025-11-09T13:54:38.943+0000] {taskinstance.py:3503} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2025-11-09T13:54:38.945+0000] {local_task_job_runner.py:222} INFO - ::endgroup::

@@ -1,0 +1,23 @@
+[2025-11-14T18:16:00.231+0000] {local_task_job_runner.py:120} INFO - ::group::Pre task execution logs
+[2025-11-14T18:16:00.266+0000] {taskinstance.py:2076} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: test_connections_dag.test_minio_connection scheduled__2025-11-14T12:00:00+00:00 [queued]>
+[2025-11-14T18:16:00.276+0000] {taskinstance.py:2076} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: test_connections_dag.test_minio_connection scheduled__2025-11-14T12:00:00+00:00 [queued]>
+[2025-11-14T18:16:00.276+0000] {taskinstance.py:2306} INFO - Starting attempt 1 of 2
+[2025-11-14T18:16:00.296+0000] {taskinstance.py:2330} INFO - Executing <Task(PythonOperator): test_minio_connection> on 2025-11-14 12:00:00+00:00
+[2025-11-14T18:16:00.308+0000] {standard_task_runner.py:90} INFO - Running: ['***', 'tasks', 'run', 'test_connections_dag', 'test_minio_connection', 'scheduled__2025-11-14T12:00:00+00:00', '--job-id', '37', '--raw', '--subdir', 'DAGS_FOLDER/connect.py', '--cfg-path', '/tmp/tmpzibo_1q_']
+[2025-11-14T18:16:00.314+0000] {standard_task_runner.py:91} INFO - Job 37: Subtask test_minio_connection
+[2025-11-14T18:16:00.314+0000] {logging_mixin.py:188} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:62 DeprecationWarning: This process (pid=274) is multi-threaded, use of fork() may lead to deadlocks in the child.
+[2025-11-14T18:16:00.318+0000] {standard_task_runner.py:64} INFO - Started process 275 to run task
+[2025-11-14T18:16:00.373+0000] {task_command.py:426} INFO - Running <TaskInstance: test_connections_dag.test_minio_connection scheduled__2025-11-14T12:00:00+00:00 [running]> on host 20d06d2beb9c
+[2025-11-14T18:16:00.494+0000] {taskinstance.py:2648} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='data_engineer' AIRFLOW_CTX_DAG_ID='test_connections_dag' AIRFLOW_CTX_TASK_ID='test_minio_connection' AIRFLOW_CTX_EXECUTION_DATE='2025-11-14T12:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2025-11-14T12:00:00+00:00'
+[2025-11-14T18:16:00.496+0000] {taskinstance.py:430} INFO - ::endgroup::
+[2025-11-14T18:16:00.753+0000] {connect.py:63} INFO - 🔄 Пытаемся подключиться к MinIO...
+[2025-11-14T18:16:00.767+0000] {connect.py:74} INFO - ✅ Подключение к MinIO установлено. Доступные бакеты: ['test-bucket']
+[2025-11-14T18:16:00.770+0000] {connect.py:81} INFO - ✅ Бакет test-bucket уже существует
+[2025-11-14T18:16:00.776+0000] {connect.py:93} INFO - ✅ Тестовый файл загружен в MinIO
+[2025-11-14T18:16:00.781+0000] {connect.py:100} INFO - ✅ Файл прочитан из MinIO: Hello from Airflow DAG!
+[2025-11-14T18:16:00.782+0000] {python.py:237} INFO - Done. Returned value was: MinIO connection successful
+[2025-11-14T18:16:00.782+0000] {taskinstance.py:441} INFO - ::group::Post task execution logs
+[2025-11-14T18:16:00.801+0000] {taskinstance.py:1206} INFO - Marking task as SUCCESS. dag_id=test_connections_dag, task_id=test_minio_connection, run_id=scheduled__2025-11-14T12:00:00+00:00, execution_date=20251114T120000, start_date=20251114T181600, end_date=20251114T181600
+[2025-11-14T18:16:00.833+0000] {local_task_job_runner.py:243} INFO - Task exited with return code 0
+[2025-11-14T18:16:00.868+0000] {taskinstance.py:3503} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2025-11-14T18:16:00.871+0000] {local_task_job_runner.py:222} INFO - ::endgroup::

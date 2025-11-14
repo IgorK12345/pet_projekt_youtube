@@ -2,7 +2,9 @@ version: '3.8'
 
 services:
   airflow-webserver:
-    image: apache/airflow:2.9.3
+    build:
+        context: .
+        dockerfile: Dockerfile.airflow
     environment:
       - AIRFLOW__CORE__EXECUTOR=LocalExecutor
       - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@postgres:5432/airflow
@@ -10,8 +12,8 @@ services:
       - AIRFLOW__CORE__LOAD_EXAMPLES=False
       - AIRFLOW__WEBSERVER__RBAC=True
     volumes:
-      - airflow-dags:/opt/airflow/dags
-      - airflow-logs:/opt/airflow/logs
+      - ./dags:/opt/airflow/dags  
+      - ./logs:/opt/airflow/logs
     ports:
       - "8080:8080"
     depends_on:
@@ -24,15 +26,17 @@ services:
       "
 
   airflow-scheduler:
-    image: apache/airflow:2.9.3
+    build:
+        context: .
+        dockerfile: Dockerfile.airflow
     environment:
       - AIRFLOW__CORE__EXECUTOR=LocalExecutor
       - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@postgres:5432/airflow
       - AIRFLOW__CORE__FERNET_KEY=46BKJoQYlPpB6R7fql54GgkF1jJw6rOjP8Nt4KvZr0U=
       - AIRFLOW__CORE__LOAD_EXAMPLES=False
     volumes:
-      - airflow-dags:/opt/airflow/dags
-      - airflow-logs:/opt/airflow/logs
+      - ./dags:/opt/airflow/dags  
+      - ./logs:/opt/airflow/logs
     depends_on:
       - postgres
     command: >
@@ -77,5 +81,4 @@ volumes:
   minio-data:
   clickhouse-data:
   clickhouse-logs:
-  airflow-dags:
   airflow-logs:

@@ -1,0 +1,8 @@
+# Dockerfile.airflow
+FROM apache/airflow:2.9.3
+
+# Устанавливаем дополнительные Python-пакеты
+# --no-cache-dir ускоряет сборку и экономит место
+RUN pip install --no-cache-dir \
+    clickhouse-connect==0.7.13 \
+    minio==7.2.7
